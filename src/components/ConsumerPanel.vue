@@ -3,18 +3,22 @@ import type { Friend } from '../utils/db';
 
 import { useLiveQuerySubscription } from 'dexie-reactive';
 import FriendList from './FriendList.vue';
-
+const props = defineProps<{isActive: boolean}>()
 const state = useLiveQuerySubscription<Friend>('friends');
+
+const emit = defineEmits<{
+  (e: 'toggle'): void
+}>()
 </script>
 
 <template>
   <section class="panel">
-    <div class="panel-header">
+    <div class="panel-header" >
       <div>
         <p class="eyebrow">Consumer</p>
         <h2>useLiveQuerySubscription</h2>
-      </div>
 
+      </div>
       <span
         class="status-pill"
         :class="{
@@ -28,13 +32,17 @@ const state = useLiveQuerySubscription<Friend>('friends');
             ? 'Error'
             : state.loading.value
             ? 'Loading'
-            : 'Live'
+            : 'Ready'
         }}
       </span>
-    </div>
 
+    </div>
+    <div class="flex-between" style="margin: 1rem 0;">
+      <button v-if="props.isActive" class="button button-small danger-action" @click="() => {state.stop(); emit('toggle')}">Pause shared liveQuery</button>
+      <button v-else class="button button-small success-action" @click="() => {state.restart(); emit('toggle')}">Resume shared liveQuery</button>
+    </div>
     <FriendList
-      :names="state.data.value.map((friend) => friend.name)"
+      :friends="state.data.value"
       empty-label="Waiting for producer data"
     />
   </section>

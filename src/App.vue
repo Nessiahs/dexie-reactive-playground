@@ -2,9 +2,12 @@
 import ProducerPanel from './components/ProducerPanel.vue';
 import ConsumerPanel from './components/ConsumerPanel.vue';
 import { db } from './utils/db';
+import {ref} from "vue";
 const clear = async () => {
   await db.friends.clear();
 };
+
+const isActive = ref(true);
 </script>
 
 <template>
@@ -16,12 +19,30 @@ const clear = async () => {
         One producer component owns the Dexie liveQuery subscription while
         consumer components share the same reactive state by key.
       </p>
-      <button class="primary-action" @click="clear">Clear IndexedDB</button>
+      <section class="demo-grid">
+        <div>
+          <button  class="button primary-action" @click="clear">Clear IndexedDB</button>
+          <p>
+            Removes all locally stored demo data.
+          </p>
+        </div>
+        <div>
+          <a  class="primary-action button button-link" href="/"
+              target="_blank"
+              rel="noopener noreferrer"
+          >Open second demo tab</a>
+          <p>
+            Demonstrates shared reactive updates across browser tabs.
+          </p>
+
+        </div>
+
+      </section>
     </header>
 
     <section class="demo-grid">
-      <ProducerPanel />
-      <ConsumerPanel />
+      <ProducerPanel :is-active="isActive" @toggle="() => isActive=!isActive"/>
+      <ConsumerPanel :is-active="isActive"  @toggle="() => isActive=!isActive"/>
     </section>
   </main>
 </template>

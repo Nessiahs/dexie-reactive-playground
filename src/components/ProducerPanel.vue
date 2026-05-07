@@ -8,6 +8,12 @@ const state = useFriendsQuery();
 
 const newFriendName = ref('');
 
+const emit = defineEmits<{
+  (e: 'toggle'): void
+}>()
+
+const props = defineProps<{isActive: boolean}>()
+
 async function addFriend() {
   const name = newFriendName.value.trim();
 
@@ -27,6 +33,7 @@ async function addFriend() {
       <div>
         <p class="eyebrow">Producer</p>
         <h2>useLiveQuery</h2>
+
       </div>
 
       <span
@@ -42,9 +49,13 @@ async function addFriend() {
             ? 'Error'
             : state.loading.value
             ? 'Loading'
-            : 'Live'
+            : 'Ready'
         }}
       </span>
+    </div>
+    <div  class="flex-between" style="margin-top: 1rem">
+      <button v-if="props.isActive" class="button button-small danger-action" @click="() =>{state.stop(); emit('toggle')}">Pause shared liveQuery</button>
+      <button v-else class="button button-small success-action" @click="() => {state.restart(); emit('toggle')}">Resume shared liveQuery</button>
     </div>
 
     <form class="entry-form" @submit.prevent="addFriend">
@@ -54,11 +65,11 @@ async function addFriend() {
         <input v-model="newFriendName" placeholder="Ada Lovelace" />
       </label>
 
-      <button class="primary-action" type="submit">Add friend</button>
+      <button class="primary-action button" type="submit">Add friend</button>
     </form>
 
     <FriendList
-      :names="state.data.value.map((friend) => friend.name)"
+      :friends="state.data.value"
       empty-label="No friends yet"
     />
   </section>

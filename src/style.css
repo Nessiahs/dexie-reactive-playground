@@ -145,19 +145,53 @@ input {
   outline: 3px solid rgb(15 118 110 / 18%);
 }
 
-.primary-action {
+
+.button {
   height: 42px;
   padding: 0 16px;
   border: 0;
   border-radius: 6px;
-  color: #ffffff;
-  background: #0f766e;
   font-weight: 750;
   cursor: pointer;
 }
 
+.button-small {
+  padding: 0 8px;
+  font-weight: normal;
+}
+
+.primary-action {
+  color: #ffffff;
+  background: #0f766e;
+}
+
 .primary-action:hover {
   background: #115e59;
+}
+
+.danger-action {
+  color: #ffffff;
+  background: #842029;
+}
+
+.success-action {
+  color: #ffffff;
+  background: #0f5132;
+}
+
+.success-action:hover {
+  background: #fff0bd;
+}
+
+.danger-action:hover {
+  background: #f8d7da;
+}
+
+.button-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
 }
 
 .friend-list {
@@ -258,4 +292,11 @@ input {
   .primary-action {
     width: 100%;
   }
+}
+
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

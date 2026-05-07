@@ -8,11 +8,13 @@ const props = defineProps<{
   friends: Friend[]
 }>()
 
-const cb = (id: number) => {
+async function deleteFriend(id?: number) {
 
-  db.friends.delete(id)
+  if (id === undefined) return
+
+  await db.friends.delete(id)
+
 }
-
 </script>
 
 <template>
@@ -22,7 +24,7 @@ const cb = (id: number) => {
     <ul v-if="props.friends.length > 0">
       <li v-for="friend in props.friends" :key="friend.id" class="flex-between">
         {{friend.name}}
-        <button @click="cb(friend.id as number)"><HiOutlineTrash /></button>
+        <button @click="deleteFriend(friend.id as number)"><HiOutlineTrash /></button>
       </li>
     </ul>
 

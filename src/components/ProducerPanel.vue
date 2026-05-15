@@ -9,6 +9,10 @@ const state = useFriendsQuery();
 const newFriendName = ref('');
 const isProducerActive = ref(true);
 
+const emit = defineEmits<{
+  (event: 'destroy'): void;
+}>();
+
 async function addFriend() {
   const name = newFriendName.value.trim();
 
@@ -30,6 +34,10 @@ function restartProducer() {
   state.restart();
   isProducerActive.value = true;
 }
+
+function destroyProducer() {
+  emit('destroy');
+}
 </script>
 
 <template>
@@ -46,13 +54,17 @@ function restartProducer() {
       <span
         class="status-pill"
         :class="{
-          'is-loading': state.loading.value,
-          'is-error': state.hasError.value,
-          'is-live': !state.loading.value && !state.hasError.value,
+          'is-stopped': !isProducerActive,
+          'is-loading': isProducerActive && state.loading.value,
+          'is-error': isProducerActive && state.hasError.value,
+          'is-live':
+            isProducerActive && !state.loading.value && !state.hasError.value,
         }"
       >
         {{
-          state.hasError.value
+          !isProducerActive
+            ? 'Stopped'
+            : state.hasError.value
             ? 'Error'
             : state.loading.value
             ? 'Loading'
@@ -75,6 +87,13 @@ function restartProducer() {
         @click="restartProducer"
       >
         Restart producer liveQuery
+      </button>
+      <button
+        class="button button-small danger-outline-action"
+        type="button"
+        @click="destroyProducer"
+      >
+        Destroy producer
       </button>
     </div>
 

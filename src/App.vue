@@ -1,11 +1,22 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import ProducerPanel from './components/ProducerPanel.vue';
 import ConsumerPanel from './components/ConsumerPanel.vue';
 import { db } from './utils/db';
 
+const showProducer = ref(true);
+
 const clear = async () => {
   await db.friends.clear();
 };
+
+function destroyProducer() {
+  showProducer.value = false;
+}
+
+function restoreProducer() {
+  showProducer.value = true;
+}
 </script>
 
 <template>
@@ -45,7 +56,36 @@ const clear = async () => {
     </header>
 
     <section class="panel-grid">
-      <ProducerPanel />
+      <ProducerPanel v-if="showProducer" @destroy="destroyProducer" />
+      <section v-else class="panel producer-placeholder">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Producer</p>
+            <h2>Producer destroyed</h2>
+            <p class="panel-copy">
+              The producer component is unmounted. Consumers may keep snapshots
+              or wait for a producer to register the friends key again.
+            </p>
+          </div>
+
+          <span class="status-pill is-detached">
+            Destroyed
+          </span>
+        </div>
+
+        <div class="panel-actions">
+          <button
+            class="button button-small success-action"
+            @click="restoreProducer"
+          >
+            Restore producer
+          </button>
+        </div>
+
+        <p class="empty-state">
+          Restore the producer to create a new owner for the shared liveQuery.
+        </p>
+      </section>
       <ConsumerPanel title="Consumer A" label="Local attachment" />
       <ConsumerPanel title="Consumer B" label="Local attachment" />
     </section>

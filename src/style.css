@@ -107,6 +107,8 @@ input {
 
 .panel-actions {
   display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   justify-content: flex-start;
   margin: 16px 0;
 }
@@ -138,6 +140,11 @@ input {
 .status-pill.is-detached {
   color: #39414a;
   background: #dfe6eb;
+}
+
+.status-pill.is-stopped {
+  color: #694c00;
+  background: #fff0bd;
 }
 
 .entry-form {
@@ -200,6 +207,12 @@ input {
   background: #842029;
 }
 
+.danger-outline-action {
+  color: #842029;
+  border: 1px solid #842029;
+  background: #ffffff;
+}
+
 .success-action {
   color: #ffffff;
   background: #0f5132;
@@ -213,11 +226,20 @@ input {
   background: #f8d7da;
 }
 
+.danger-outline-action:hover {
+  color: #ffffff;
+  background: #842029;
+}
+
 .button-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
+}
+
+.producer-placeholder {
+  grid-template-rows: auto auto 1fr;
 }
 
 .friend-list {

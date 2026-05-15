@@ -7,12 +7,7 @@ import FriendList from './FriendList.vue';
 const state = useFriendsQuery();
 
 const newFriendName = ref('');
-
-const emit = defineEmits<{
-  (e: 'toggle'): void
-}>()
-
-const props = defineProps<{isActive: boolean}>()
+const isProducerActive = ref(true);
 
 async function addFriend() {
   const name = newFriendName.value.trim();
@@ -25,6 +20,16 @@ async function addFriend() {
 
   newFriendName.value = '';
 }
+
+function stopProducer() {
+  state.stop();
+  isProducerActive.value = false;
+}
+
+function restartProducer() {
+  state.restart();
+  isProducerActive.value = true;
+}
 </script>
 
 <template>
@@ -33,7 +38,9 @@ async function addFriend() {
       <div>
         <p class="eyebrow">Producer</p>
         <h2>useLiveQuery</h2>
-
+        <p class="panel-copy">
+          Owns the shared friends liveQuery subscription.
+        </p>
       </div>
 
       <span
@@ -53,9 +60,22 @@ async function addFriend() {
         }}
       </span>
     </div>
-    <div  class="flex-between" style="margin-top: 1rem">
-      <button v-if="props.isActive" class="button button-small danger-action" @click="() =>{state.stop(); emit('toggle')}">Pause shared liveQuery</button>
-      <button v-else class="button button-small success-action" @click="() => {state.restart(); emit('toggle')}">Resume shared liveQuery</button>
+
+    <div class="panel-actions">
+      <button
+        v-if="isProducerActive"
+        class="button button-small danger-action"
+        @click="stopProducer"
+      >
+        Stop producer liveQuery
+      </button>
+      <button
+        v-else
+        class="button button-small success-action"
+        @click="restartProducer"
+      >
+        Restart producer liveQuery
+      </button>
     </div>
 
     <form class="entry-form" @submit.prevent="addFriend">

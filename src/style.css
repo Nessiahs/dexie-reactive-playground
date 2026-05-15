@@ -59,11 +59,19 @@ input {
   text-transform: uppercase;
 }
 
-.demo-grid {
+.hero-actions,
+.panel-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
   align-items: stretch;
+}
+
+.hero-actions {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.panel-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .panel {
@@ -90,6 +98,19 @@ input {
   line-height: 1.2;
 }
 
+.panel-copy {
+  max-width: 320px;
+  margin: 8px 0 0;
+  color: #53616b;
+  font-size: 0.875rem;
+}
+
+.panel-actions {
+  display: flex;
+  justify-content: flex-start;
+  margin: 16px 0;
+}
+
 .status-pill {
   min-width: 72px;
   padding: 5px 10px;
@@ -112,6 +133,11 @@ input {
 .status-pill.is-error {
   color: #842029;
   background: #f8d7da;
+}
+
+.status-pill.is-detached {
+  color: #39414a;
+  background: #dfe6eb;
 }
 
 .entry-form {
@@ -202,6 +228,13 @@ input {
   background: #f7f9fa;
 }
 
+.friend-list-status {
+  margin: 0 0 10px;
+  color: #53616b;
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
 .friend-list ul {
   display: grid;
   gap: 8px;
@@ -217,6 +250,24 @@ input {
   background: #ffffff;
   color: #172026;
   font-weight: 650;
+}
+
+.icon-button {
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 6px;
+  color: #842029;
+  background: #f8d7da;
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  color: #ffffff;
+  background: #842029;
 }
 
 .empty-state {
@@ -280,7 +331,8 @@ input {
     font-size: 2rem;
   }
 
-  .demo-grid,
+  .hero-actions,
+  .panel-grid,
   .entry-form {
     grid-template-columns: 1fr;
   }
